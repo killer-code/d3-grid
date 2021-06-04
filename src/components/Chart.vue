@@ -22,7 +22,7 @@ export default {
       return {
         i: d,
         x: mindate,
-        y: Math.random() < 0.5 ? Math.random() * 1000 : Math.random() * -1000,
+        y: 5,
       }
     });
 
@@ -39,19 +39,15 @@ export default {
 
     // large "endless" zoom
     var zoom = this.$d3.zoom()
-      .scaleExtent([-1e100, 1e100])
-      .translateExtent([
-        [-1e100, -1e100],
-        [1e100, 1e100]
-      ])
+      .scaleExtent([1, 6])
       .on("zoom", zoomed);
 
-    var x = this.$d3.scaleTime() //self.$moment(today).format('YYYY-MM-DD')
+    var x = this.$d3.scaleTime()
       .domain([mindate, maxdate])
       .range([0, width]);
 
     var y = this.$d3.scaleLinear()
-      .domain([-100, 100])
+      .domain([1, 10])
       .range([height, 0]);
 
     var xAxis = this.$d3.axisBottom(x)
@@ -79,14 +75,11 @@ export default {
 
     function zoomed() {
       var t = self.$d3.event.transform,
-        sx = t.rescaleX(x), //<-- rescale the scales
-        sy = t.rescaleY(x);
+      sx = t.rescaleX(x);
 
-      // swap out axis
       gX.call(xAxis.scale(sx));
-      gY.call(yAxis.scale(sy));
 
-      updateData(sx, sy)
+      updateData(sx)
     }
 
     // classic enter, update, exit pattern
