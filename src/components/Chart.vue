@@ -15,8 +15,8 @@ export default {
   mounted() {
     const self = this;
     const today = new Date();
-    var mindate = new Date(2021,6,5),
-        maxdate = new Date(2021,7,5);
+    var mindate = new Date(2021,5,4),
+        maxdate = new Date(2021,6,4);
     // 10,000 random data points
     var data = this.$d3.range(1, 10000).map(function(d) {
       return {
@@ -62,7 +62,12 @@ export default {
     var gX = svg.append("g")
       .attr("transform", "translate(0," + height + ")")
       .attr("class", "axis axis--x")
-      .call(xAxis)
+      .call(xAxis.tickFormat(self.$d3.timeFormat("%d / %m")))
+      // .selectAll("text") 
+      // .style("text-anchor", "end")
+      // .attr("dx", "-.8em")
+      // .attr("dy", ".15em")
+      // .attr("transform", "rotate(-90)");
 
     var gY = svg.append("g")
       .attr("class", "axis axis--y")
@@ -127,7 +132,7 @@ export default {
 .gantt {
   & svg {
     width: 100%;
-    height: 500px;
+    height: 900px;
   }
 }
 </style>
